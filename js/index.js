@@ -38,6 +38,17 @@ function getCurrentDate() {
     //return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
 
 }
+
+
+function getWeekDay() {
+    const date = new Date();
+    const day = date.getDay();
+    const daysOfWeek = ["Domingo-Feira", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"]
+    
+    return daysOfWeek[day]
+}
+
+
 updateContentHour();
 setInterval(updateContentHour, 1000);
 
