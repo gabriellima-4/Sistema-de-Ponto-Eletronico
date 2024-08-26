@@ -1,28 +1,31 @@
 const diaSemana = document.getElementById("dia-semana");
 const dataAtual = document.getElementById("data-atual");
 const horaAtual = document.getElementById("hora-atual");
+const btnRegistrarPonto = document.getElementById("btn-registrar-ponto");
+
+//btnRegistrarPonto.addEventListener("click", );
+
+
+diaSemana.textContent = getWeekDay();
+dataAtual.textContent = getCurrentDate();
+
+
+function registrar() {
+    alert("PEIDO");
+}
 
 function updateContentHour() {
-    dataAtual.textContent = getCurrentDate();
     horaAtual.textContent = getCurrentTime();
 }
 
-//Horário na forma hh:mm:ss
+//Horário na forma hr:min:seg
 function getCurrentTime() {
     const date = new Date();
-    // if (date.getHours < 10) {
-    //     return "0" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-    // }
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
 
-    // if (date.getMinutes < 10) {
-    //     return date.getHours() + ":" + "0" + date.getMinutes() + ":" + date.getSeconds()
-    // }
-
-    // if (date.getSeconds < 10) {
-    //     return date.getHours() + ":" + date.getMinutes() + ":" + "0" + date.getSeconds()
-    // }
-    
-    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+    return hours + ":" + minutes + ":" + seconds
 }
 
 //Data na forma mm/dd/aaaa
@@ -35,11 +38,10 @@ function getCurrentDate() {
     if (date.getDate < 10) {
         return (date.getMonth() + 1) + "/" + "0" + date.getDate() + "/" + date.getFullYear()
     }
-    //return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
 
 }
 
-
+// Dia da semana
 function getWeekDay() {
     const date = new Date();
     const day = date.getDay();
@@ -52,5 +54,7 @@ function getWeekDay() {
 updateContentHour();
 setInterval(updateContentHour, 1000);
 
+
+console.log(getWeekDay());
 console.log(getCurrentTime());
 console.log(getCurrentDate());
