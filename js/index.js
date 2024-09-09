@@ -1,17 +1,41 @@
+navigator.geolocation.getCurrentPosition ((position) => {
+    console.log(position)
+    console.log(position.coords.latitude)
+    console.log(position.coords.longitude)
+});
+
 const diaSemana = document.getElementById("dia-semana");
 const dataAtual = document.getElementById("data-atual");
 const horaAtual = document.getElementById("hora-atual");
 const btnRegistrarPonto = document.getElementById("btn-registrar-ponto");
 
-//btnRegistrarPonto.addEventListener("click", );
+btnRegistrarPonto.addEventListener("click", register);
 
 
 diaSemana.textContent = getWeekDay();
 dataAtual.textContent = getCurrentDate();
 
 
-function registrar() {
-    alert("PEIDO");
+const dialogPonto = document.getElementById("dialog-ponto");
+
+const dialogData = document.getElementById("dialog-data");
+dialogData.textContent = getCurrentDate();
+
+const dialogHora = document.getElementById("dialog-hora");
+dialogHora.textContent = getCurrentTime();
+
+
+//aa
+
+
+
+const btnDialogFechar = document.getElementById("dialog-fechar")
+btnDialogFechar.addEventListener("click", () =>{
+    dialogPonto.close();
+})
+
+function register() {
+    dialogPonto.showModal();
 }
 
 function updateContentHour() {
