@@ -1,9 +1,3 @@
-navigator.geolocation.getCurrentPosition ((position) => {
-    console.log(position)
-    console.log(position.coords.latitude)
-    console.log(position.coords.longitude)
-});
-
 const diaSemana = document.getElementById("dia-semana");
 const dataAtual = document.getElementById("data-atual");
 const horaAtual = document.getElementById("hora-atual");
@@ -25,14 +19,49 @@ const dialogHora = document.getElementById("dialog-hora");
 dialogHora.textContent = getCurrentTime();
 
 
-//aa
+const btnDialogEntrada = document.getElementById("btn-dialog-entrada");
+btnDialogEntrada.addEventListener("click", () => {
+    saveRegisterLocalStorage(JSON.stringify(getObjectRegister("entrada")));
+})
 
+const btnDialogSaida = document.getElementById("btn-dialog-saida");
+btnDialogSaida.addEventListener("click", () => {
+    saveRegisterLocalStorage(JSON.stringify(getObjectRegister("saida")));
+});
+
+function getObjectRegister (registertype) {
+    ponto = {
+        "date": getCurrentDate(),
+        "time": getCurrentTime(),
+        "location": getUserLocation(),
+        "id": 1,
+        "type": registerType
+    }
+    return ponto
+}
 
 
 const btnDialogFechar = document.getElementById("dialog-fechar")
 btnDialogFechar.addEventListener("click", () =>{
     dialogPonto.close();
 })
+
+function saveRegisterLocalStorage(register) {
+    localStorage.setItem("register", register);
+}
+
+function getUserLocation() {
+   
+    navigator.geolocation.getCurrentPosition ((position) => {
+        let userLocation = {
+            "lat": position.coords.latitude,
+            "long": position.coords.longitude
+        }
+        return userLocation
+    })
+
+};
+
 
 function register() {
     dialogPonto.showModal();
