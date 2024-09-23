@@ -18,16 +18,58 @@ dialogData.textContent = getCurrentDate();
 const dialogHora = document.getElementById("dialog-hora");
 dialogHora.textContent = getCurrentTime();
 
+const selectRegisterType = document.getElementById("register-type");
 
-const btnDialogEntrada = document.getElementById("btn-dialog-entrada");
-btnDialogEntrada.addEventListener("click", () => {
-    saveRegisterLocalStorage(JSON.stringify(getObjectRegister("entrada")));
-})
 
-const btnDialogSaida = document.getElementById("btn-dialog-saida");
-btnDialogSaida.addEventListener("click", () => {
-    saveRegisterLocalStorage(JSON.stringify(getObjectRegister("saida")));
+function setRegisterType(){
+    let lastType = localStorage.getItem("lastRegisterType");
+    if(lastType == "entrada"){
+        selectRegisterType.value = "intervalo";
+        return;
+    }
+    if (lastType == "intervalo"){
+        selectRegisterType.value = "volta-intervalo";
+        return;
+    }
+    if (lastType == "volta-intervalo"){
+        selectRegisterType.value = "saida";
+        return;
+    }
+    if (lastType == "saida"){
+        selectRegisterType.value = "entrada";
+        return;
+    }
+
+
+}
+
+
+const btnDialogRegister = document.getElementById("btn-dialog-register");
+btnDialogRegister.addEventListener("click", () => {
+    let register = getObjectRegister(selectRegisterType.value);
+    saveRegisterLocalStorage(register);
+    
+    localStorage.setItem("lastRegisterType", selectRegisterType.value);
+
+    // TO-DO:
+    // Informar o usuário do status do registro do ponto
+    // Sucesso ou falha
+    // Pode ser apresentado na tela principal no cabeçalho
+    // Efeito de transição e aparecer por 3 a 5s depois sumir
+    dialogPonto.close();
 });
+
+
+// const btnDialogEntrada = document.getElementById("btn-dialog-entrada");
+// btnDialogEntrada.addEventListener("click", () => {
+//     saveRegisterLocalStorage(JSON.stringify(getObjectRegister("entrada")));
+
+// })
+
+// const btnDialogSaida = document.getElementById("btn-dialog-saida");
+// btnDialogSaida.addEventListener("click", () => {
+//     saveRegisterLocalStorage(JSON.stringify(getObjectRegister("saida")));
+// });
 
 function getObjectRegister (registertype) {
     ponto = {
@@ -35,7 +77,7 @@ function getObjectRegister (registertype) {
         "time": getCurrentTime(),
         "location": getUserLocation(),
         "id": 1,
-        "type": registerType
+        "type": registertype
     }
     return ponto
 }
@@ -46,9 +88,30 @@ btnDialogFechar.addEventListener("click", () =>{
     dialogPonto.close();
 })
 
+let registersLocalStorage = getRegisterLocalStorage("register");
+
 function saveRegisterLocalStorage(register) {
-    localStorage.setItem("register", register);
+
+    registersLocalStorage.push(register);
+
+    localStorage.setItem("register", JSON.stringify(registersLocalStorage));
 }
+
+function getRegisterLocalStorage(key) {
+
+    let registers = localStorage.getItem(key);
+
+    if(!registers) {
+        return [];
+    }
+
+    return JSON.parse(registers);
+}
+
+// O que é uma função assíncrona?
+// O que é um objeto Javascript?
+// O que é uma instância?
+// O que é PROTOTYPE?
 
 function getUserLocation() {
    
