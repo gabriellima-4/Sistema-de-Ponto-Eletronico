@@ -7,3 +7,19 @@
     top: 0;
     right: 0;
 }
+
+.hidden {
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+}
+
+#alerta-ponto-registrado {
+    border: 1px solid red;
+    right: 3px;
+    bottom: 3px;
+    position: fixed;
+    font-size: 2rem;
+}
