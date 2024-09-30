@@ -21,5 +21,9 @@
     right: 3px;
     bottom: 3px;
     position: fixed;
-    font-size: 2rem;
+    font-size: 1.5rem;
+
+    background-color: rgb(26, 228, 26);
+    color: white;
+    padding: 10px;
 }

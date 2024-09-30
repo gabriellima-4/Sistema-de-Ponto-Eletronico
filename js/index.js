@@ -46,10 +46,22 @@ function setRegisterType(){
 
 const btnDialogRegister = document.getElementById("btn-dialog-register");
 btnDialogRegister.addEventListener("click", () => {
+
+
     let register = getObjectRegister(selectRegisterType.value);
     saveRegisterLocalStorage(register);
     
     localStorage.setItem("lastRegisterType", selectRegisterType.value);
+
+
+    const alertaSucesso = document.getElementById("alerta-ponto-registrado")
+    alertaSucesso.classList.remove("hidden");
+    alertaSucesso.classList.add("show");
+
+    setTimeout( () => {
+        alertaSucesso.classList.remove("show");
+        alertaSucesso.classList.add("hidden");
+    }, 5000);
 
     // TO-DO:
     // Informar o usuário do status do registro do ponto
@@ -127,6 +139,9 @@ function getUserLocation() {
 
 
 function register() {
+
+
+    
     dialogPonto.showModal();
 }
 
