@@ -13,10 +13,10 @@ dataAtual.textContent = getCurrentDate();
 const dialogPonto = document.getElementById("dialog-ponto");
 
 const dialogData = document.getElementById("dialog-data");
-dialogData.textContent = getCurrentDate();
+dialogData.textContent = "Data: " + getCurrentDate();
 
 const dialogHora = document.getElementById("dialog-hora");
-dialogHora.textContent = getCurrentTime();
+//dialogHora.textContent = getCurrentTime();
 
 const selectRegisterType = document.getElementById("register-type");
 
@@ -51,7 +51,7 @@ btnDialogRegister.addEventListener("click", async () => {
     let register = await getObjectRegister(selectRegisterType.value);
     saveRegisterLocalStorage(register);
     
-    localStorage.setItem("lastRegisterType", JSON.stringify(selectRegisterType.value));
+    localStorage.setItem("lastRegister", JSON.stringify(selectRegisterType.value));
 
 
     const alertaSucesso = document.getElementById("alerta-ponto-registrado")
@@ -63,11 +63,6 @@ btnDialogRegister.addEventListener("click", async () => {
         alertaSucesso.classList.add("hidden");
     }, 5000);
 
-    // TO-DO:
-    // Informar o usuário do status do registro do ponto
-    // Sucesso ou falha
-    // Pode ser apresentado na tela principal no cabeçalho
-    // Efeito de transição e aparecer por 3 a 5s depois sumir
     dialogPonto.close();
 });
 
@@ -109,7 +104,7 @@ btnDialogFechar.addEventListener("click", () =>{
 let registersLocalStorage = getRegisterLocalStorage("register");
 
 function saveRegisterLocalStorage(register) {
-
+    
     registersLocalStorage.push(register);
 
     localStorage.setItem("register", JSON.stringify(registersLocalStorage));
@@ -180,25 +175,16 @@ function updateContentHour() {
 //Horário na forma hr:min:seg
 function getCurrentTime() {
     const date = new Date();
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-
-    return hours + ":" + minutes + ":" + seconds
+    return String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ":" + String(date.getSeconds()).padStart(2, '0');
 }
 
-//Data na forma mm/dd/aaaa
+
 function getCurrentDate() {
-    const date = new Date();
-    if ((date.getMonth() + 1) < 10) {
-        return "0" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
-    }
-
-    if (date.getDate < 10) {
-        return (date.getMonth() + 1) + "/" + "0" + date.getDate() + "/" + date.getFullYear()
-    }
-
+    const date = new Date(); 
+    let mes = date.getMonth() + 1;
+    return String(date.getDate()).padStart(2, '0') + "/" + String(mes).padStart(2, '0') + "/" +  String(date.getFullYear()).padStart(2, '0');
 }
+
 
 // Dia da semana
 function getWeekDay() {
