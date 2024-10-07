@@ -45,13 +45,13 @@ function setRegisterType(){
 
 
 const btnDialogRegister = document.getElementById("btn-dialog-register");
-btnDialogRegister.addEventListener("click", () => {
+btnDialogRegister.addEventListener("click", async () => {
 
 
-    let register = getObjectRegister(selectRegisterType.value);
+    let register = await getObjectRegister(selectRegisterType.value);
     saveRegisterLocalStorage(register);
     
-    localStorage.setItem("lastRegisterType", selectRegisterType.value);
+    localStorage.setItem("lastRegisterType", JSON.stringify(selectRegisterType.value));
 
 
     const alertaSucesso = document.getElementById("alerta-ponto-registrado")
@@ -83,11 +83,17 @@ btnDialogRegister.addEventListener("click", () => {
 //     saveRegisterLocalStorage(JSON.stringify(getObjectRegister("saida")));
 // });
 
-function getObjectRegister (registertype) {
+async function getObjectRegister (registertype) {
+
+    const location = await getUserLocation();
+
+    console.log(location);
+    
+
     ponto = {
         "date": getCurrentDate(),
         "time": getCurrentTime(),
-        "location": getUserLocation(),
+        "location": location,
         "id": 1,
         "type": registertype
     }
@@ -126,21 +132,43 @@ function getRegisterLocalStorage(key) {
 // O que é PROTOTYPE?
 
 function getUserLocation() {
-   
-    navigator.geolocation.getCurrentPosition ((position) => {
-        let userLocation = {
-            "lat": position.coords.latitude,
-            "long": position.coords.longitude
-        }
-        return userLocation
-    })
-
-};
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            let userLocation = {
+                "latitude": position.coords.latitude,
+                "longitude": position.coords.longitude
+            }
+            resolve(userLocation);
+        }, 
+        (error) => {
+            reject("Erro " + error);
+        });
+    });
+}
 
 
 function register() {
+    
+    const dialogUltimoRegistro = document.getElementById("dialog-ultimo-registro");
+    let lastRegister = JSON.parse(localStorage.getItem("lastRegister"));
 
+    if(lastRegister){
+        console.log(lastRegister);
 
+        let lastDateRegister = lastRegister.date;
+        let lastTimeRegister = lastRegister.time;
+        let lastRegisterType = lastRegister.type;
+
+        dialogUltimoRegistro.textContent = "Último Registro: " + lastDateRegister + " | " + lastTimeRegister + " | " + lastRegisterType;
+    }
+
+    dialogHora.textContent = "Hora: " + getCurrentTime();
+
+    let interval = setInterval(() => {
+        dialogHora.textContent = "Hora: " + getCurrentTime();
+    })
+
+    console.log(interval);
     
     dialogPonto.showModal();
 }
